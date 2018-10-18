@@ -1,0 +1,20 @@
+Angular Commands:
+1.To install angular material:
+	1.By Simple ng command:
+		ng install @angular/material
+	2.By process defined at:
+		official website
+2.To add new component:
+	1.For whole component:
+	ng g c componentname
+	2.For generating component without spec file
+	ng g c componentname --spec true
+3.To add Services:
+	1.ng g s servicename
+4.To add dashboard:
+	1.ng generate @angular/material:material-dashboard --name <dashboard-name>
+	Ex:
+	ng generate @angular/material:material-dashboard --name material-dashboard  
+5.To open angular project to different port other than 4200:
+	ng serve -o --port 4201
+	

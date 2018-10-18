@@ -1,0 +1,21 @@
+1.put update button or icon in table.
+2.give same url like delete.
+3.now on update.php , first fatch the id 
+4.now using select query fatch particular record.
+5.now display that particular record into textbox.
+IMP-6.now on submit button post the form to the new page named as  update1.php.
+7.on update1.php paste the same code of insert just change the query.
+
+
+----------
+HW
+1.student table.
+	student_tbl.
+		textbox	1.roll_no-int-primary
+		"	2.name-varchar50 - not null
+		"	3.mobile_no-unique-number-10
+		"	4.fees-ineteger-not null
+		radio	5.gender-varchar(6)-not null
+		dropdown6.year-int-not null
+			7.
+2.

@@ -1,0 +1,11 @@
+1.
+select DISTINCT d.doc_name,p.* from prescription_mst p,doctor_mst d where p.fk_usr_email_id='malav@gmail.com' and p.fk_doc_email_id=d.pk_doc_email_id
+
+2.
+select DISTINCT d.doc_name,p.* from prescription_mst p,doctor_mst d where p.fk_usr_email_id='malav@gmail.com' and p.fk_doc_email_id=d.pk_doc_email_id ORDER BY p.pres_date DESC
+
+3.
+select DISTINCT p.fk_doc_email_id, d.doc_name from prescription_mst p,doctor_mst d where p.fk_usr_email_id='malav@gmail.com' and p.fk_doc_email_id=d.pk_doc_email_id ORDER BY p.pres_date DESC
+
+4.
+select  pres_date from prescription_mst where fk_usr_email_id="malav@gmail.com" and fk_doc_email_id="abc@xyz.com" ORDER BY pres_date DESC

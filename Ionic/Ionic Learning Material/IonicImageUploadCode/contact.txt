@@ -1,0 +1,43 @@
+import { Component, ViewChild } from "@angular/core";
+import { NavController } from "ionic-angular";
+import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { Product } from './prod';
+@Component({
+  selector: "page-contact",
+  templateUrl: "contact.html"
+})
+export class ContactPage {
+  arr:Product[]=[];
+  @ViewChild("fileInput") fileInput;
+  selectedFile: File = null;
+  constructor(public navCtrl: NavController,private http:HttpClient) {}
+  onFileSelected(value) {
+    this.selectedFile = <File>value.target.files[0];
+
+  }
+  ionViewDidLoad() {
+   this.http.get("https://rkdemotask.herokuapp.com/prod/")
+   .subscribe(
+     (data:Product[])=>{
+       this.arr=data;
+     }
+   );
+  }
+  onUpload() {
+    const fd = new FormData();
+
+    fd.append("p_id","103");
+    fd.append("pname","jinal");
+    fd.append("pprice","12344");
+    fd.append("soh","1");
+    fd.append("image", this.selectedFile, this.selectedFile.name);
+
+    this.http.post("https://rkdemotask.herokuapp.com/prod/", fd)
+    .subscribe(res => {
+      console.log(res);
+    });
+  }
+  onAdd(){
+    this.fileInput.nativeElement.click();
+  }
+}

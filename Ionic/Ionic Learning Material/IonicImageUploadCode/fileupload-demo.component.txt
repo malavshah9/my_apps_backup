@@ -1,0 +1,33 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-fileupload-demo',
+  templateUrl: './fileupload-demo.component.html',
+  styleUrls: ['./fileupload-demo.component.css']
+})
+export class FileuploadDemoComponent implements OnInit {
+
+  constructor(private http:HttpClient) { }
+selectedFile:File=null;
+flag:boolean=false;
+  ngOnInit() {
+  }
+  onFileSelected(value){
+this.selectedFile=<File>value.target.files[0];
+
+console.log(value);
+  }
+  onUpload(){
+    const fd=new FormData();
+    fd.append('name','jinal shah');
+    fd.append('image',this.selectedFile,this.selectedFile.name);
+
+    this.http.post('http://localhost:3000/demo1',fd)
+    .subscribe(
+      res=>{
+        console.log(res);
+      }
+    );
+  }
+}

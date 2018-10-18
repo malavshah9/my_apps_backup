@@ -1,0 +1,25 @@
+select b.*,COUNT(l.like_id) from blog_tbl b,likes_tbl l where b.blog_id=l.blog_id and b.fk_doc_email_id="mdshah9574@gmail.com";
+
+select p.*,u.* from prescription_mst p,user_mst u where p.fk_doc_email_id='mdshah9574@gmail.com' GROUP BY p.fk_usr_email_id
+
+select p.pres_date,u.* from prescription_mst p,user_mst u where p.fk_doc_email_id='mdshah9574@gmail.com' GROUP BY p.fk_usr_email_id
+
+select p.pres_date,u.* from prescription_mst p,user_mst u where p.fk_doc_email_id='mdshah9574@gmail.com' GROUP BY p.fk_usr_email_id,p.pres_date DESC
+
+select u.usr_name,u.usr_mno,u.usr_gen,p.pres_date from user_tbl u and prescription_tbl p where p.fk_doc_email_id='mdshah9574@gmail.com' and p.fk_usr_email_id=u.pk_usr_email_id;
+
+select u.* from user_mst u LEFT JOIN prescription_mst p ON (p.fk_doc_email_id='mdshah9574@gmail.com' AND 
+
+
+
+
+
+----------
+select DISTINCT u.usr_name,u.usr_mno,u.usr_gen,p.pres_date from user_mst u , prescription_mst p where p.fk_doc_email_id='mdshah9574@gmail.com' and p.fk_usr_email_id=u.pk_usr_email_id ORDER BY p.pres_date DESC;
+
+select DISTINCT u.usr_name,u.usr_mno,u.usr_gen,p.pres_date from user_mst u , prescription_mst p where p.fk_doc_email_id='mdshah9574@gmail.com' and p.fk_usr_email_id=u.pk_usr_email_id GROUP BY p.fk_usr_email_id ORDER BY p.pres_date DESC ;
+-----------
+;with cteRowNumber as (select u.usr_name,u.usr_mno,u.usr_gen,p.pres_date ROW_NUMBER() OVER (partition by u.usr_name ORDER BY p.pres_date DESC) as RowNum from user_mst u,prescription_mst p)
+select u.usr_name,u.usr_mno,u.usr_gen,p.pres_date from cteRowNumber where RowNum=1
+--------------FINAL----
+select MAX(p.pres_date),u.usr_name,u.usr_mno,u.usr_gen from prescription_mst p,user_mst u where p.fk_doc_email_id='mdshah9574@gmail.com' GROUP BY p.fk_usr_email_id

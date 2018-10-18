@@ -1,0 +1,21 @@
+1)user
+-email
+2)category
+-id  auto   
+-name
+3)question
+-id
+-title
+-des
+-image
+-fuser
+-fsubjectid   
+-date
+4)answer
+-ansid
+-desc
+-image
+-fquestionid
+-fuserid
+-date
+-like                                   

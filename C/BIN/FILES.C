@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<conio.h>
+//#include<file.h>
+void main(){
+	char ch;
+	FILE *fp=fopen("Strings.txt","w");
+	int i=0;
+	int pointer=0;
+	int n=0;
+	for(i=0;i<10;i++){
+		ch=getche();
+	      if(fprintf(fp,"%c",ch)==1){
+		printf("\nChar written in file successfully");
+		}
+	      }
+	fclose(fp);
+	fp=fopen("Strings.txt","r");
+	for(i=0;i<5;i++){
+		printf("\nENter Which char do you want to access");
+		scanf("%d",&n);
+		fseek(fp,n,0);
+		printf("\n%c",fgetc(fp));
+	}
+	getch();
+
+	}

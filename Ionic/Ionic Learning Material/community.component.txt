@@ -1,0 +1,117 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+import { CommunityDataService } from '../shared/community-data.service';
+import { CommunityCollectionModel } from '../shared/community-collection-model';
+
+@Component({
+  selector: 'app-community',
+  templateUrl: './community.component.html',
+  styleUrls: ['./community.component.css']
+})
+export class CommunityComponent implements OnInit {
+  localstorage:CoolLocalStorage;
+  name:string="";
+  joinArray:CommunityCollectionModel[]=[];
+  delarr:CommunityCollectionModel[]=[];
+  loader:boolean=false;
+
+  constructor(localStorage:CoolLocalStorage,public _community_data:CommunityDataService,public _router:Router) { 
+    this.localstorage=localStorage;
+  }
+
+  ngOnInit() {
+    this.name=localStorage.getItem('username');
+if(this.name==null)
+{
+   this._router.navigate(['/login']);
+}  
+    this._community_data.getAllCommunityCollection().subscribe(
+      (data:CommunityCollectionModel[])=>{
+        this.joinArray=data;
+        this.loader=true;
+        console.log(this.joinArray);
+      },
+      function(err){
+        alert(err);
+      },
+      function(){
+        this.loader=true;
+    console.log("aai gya records");
+      }
+    );
+  }
+
+  deleteCommunity(item:CommunityCollectionModel)
+  {
+    if(confirm("Are You Sure want to delete?"))
+    {
+      this._community_data.deleteCommunity(item).subscribe(
+        (data:any)=>{
+          this.joinArray.splice(this.joinArray.indexOf(item),1);
+          alert("Community Succesfully deleted!");
+        }
+      );
+    }
+  }
+   updateCommunity(id:number)
+    {
+      this._router.navigate(['/addcommunity',id]);
+    }
+
+    addCommunity()
+    {
+      console.log("called add");
+      this._router.navigate(['/addcommunity',0]);
+
+    }
+    i:number=0;
+    checkChange(item:CommunityCollectionModel)
+    {
+      
+        if(this.delarr.find(x=>x==item))
+        {
+          this.delarr.splice(this.delarr.indexOf(item),1);
+        }
+        else
+        {
+          this.delarr.push(item);
+        }
+        console.log(this.delarr);
+      
+    }
+    deleteAll()
+    {
+      /*if(confirm("Are You Sure want to delete?"))
+      {
+        for(this.i=0;this.i<=this.delarr.length;this.i++)
+        {
+          this.deleteUser1(this.delarr[this.i]);
+        }
+      }*/
+      if(confirm("Are You Sure want to delete?"))
+      {
+      this._community_data.deleteAll(this.delarr).subscribe(
+        
+          (data:any)=>{
+            
+            for(this.i=0 ; this.i<this.delarr.length ; this.i++)
+            {
+               if(this.joinArray.find(x=>x==this.delarr[this.i]))
+                {
+                   this.joinArray.splice(this.joinArray.indexOf(this.delarr[this.i]),1);
+                 }
+            }
+            this.delarr=[];
+            
+          },
+          function(err){console.log(err);},
+          function(){
+
+            console.log("Complete");
+          }
+        
+      );
+    }
+    }
+}

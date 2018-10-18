@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<conio.h>
+void SubSet(int a[],int index,int cnt,int n)
+{
+	int i=0,k=0,ptr=1;
+		for(i=index;i<cnt;i++)
+		{
+			while(ptr<=cnt)
+			{
+			printf("\t %d",a[i]);
+			i=i+ptr;
+			}
+		}
+
+}
+void getSubSet(int a[],int n)
+{
+	int i,j,k,cnt=0,s=1;
+	while(s<=n)
+	{
+		for(j=0;j<n-s+1;j++)
+		{
+			SubSet(a,j,s,n-s+1);
+		}
+		s++;
+		printf("\n");
+	}
+}
+void main()
+{
+	int a[10],n,i,j,k;
+	clrscr();
+	printf("\n Enter Numbers Do you want to add");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&a[i]);
+	}
+	getSubSet(a,n);
+	getch();
+}

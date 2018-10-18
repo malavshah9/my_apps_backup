@@ -1,0 +1,9 @@
+<html>
+<head>
+<title>Hello1</title></head>
+<body>
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>"></form>
+
+
+</body>
+</html>

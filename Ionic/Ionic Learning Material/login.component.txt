@@ -1,0 +1,152 @@
+import { Component, OnInit, AfterViewInit,NgZone } from '@angular/core';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+import { UserModel } from '../shared/user-model';
+import { UserDataService } from '../shared/user-data.service';
+import { Router,ActivatedRoute } from '@angular/router';
+import { EmailService } from '../shared/email.service';
+import { EmailModal } from '../shared/email-modal';
+declare const gapi: any;
+declare var $:any;
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+localstorage:CoolLocalStorage;
+
+public email:string="";
+public password:string="";
+public name:string="";
+public profile:string="";
+public occupation:string="";
+public msg:string="";
+public user:UserModel;
+public lat:number;
+ public lng:number;
+
+ googleLoginButtonId = "google-login-button";
+  userAuthToken = null;
+  userDisplayName = "empty";
+  userEmail='';
+  userImage='';
+ 
+  constructor(localstorage:CoolLocalStorage,private _zone: NgZone,public _email:EmailService,private _service:UserDataService,private router:Router) { 
+    this.localstorage=localstorage;
+    //this._zone.run(() => {
+   //   $.proxy(this.onGoogleLoginSuccess, this);
+    //});
+  }
+
+
+  
+
+  ngOnInit() {
+    //$("signOut");
+  }
+
+  /*googleLogin()
+  {
+    alert("aayu");
+    
+    gapi.signin2.render(
+      this.googleLoginButtonId,
+      {
+        "onSuccess": this.onGoogleLoginSuccess,
+        "scope": "profile",
+        "theme": "dark"
+      });
+  }*/
+
+  login()
+{
+  this.msg="";
+  this._service.checkuser(this.email,this.password).subscribe(
+               (data:UserModel[]) => {
+                  console.log(data);
+                 
+                  if(data.length==1)
+                  {         
+                      this.name=data[0].name;
+                      this.profile=data[0].profile_photo;
+                      this.occupation=data[0].occupation;
+                      console.log(this.occupation);
+                      
+                      if(data[0].type=="user" || data[0].type=="User")
+                      {
+                        this.localstorage.setItem('email',this.email);
+                        this.localstorage.setItem('username',this.name);
+                        this.localstorage.setItem('dp',this.profile);
+                        this.localstorage.setItem('occupation',this.occupation);
+                        console.log(this.localstorage.getItem('email'));
+                        this.router.navigate(["/home"]);
+                      }
+                      else
+                      {
+                        this.msg="Enter a valid email address or password";
+                      }
+                  }
+                  else
+                  {
+                    this.msg="Enter a valid email address or password";
+                  }
+                },
+                function(error) {
+                    console.log("erroorr");
+                },
+                function(){
+                  //console.log(this.name + " " +this.profile);
+                   
+                      
+                  //console.log(this.localstorage.getItem('email'));
+                           
+                }
+                );
+               
+}
+forgotPassword()
+{
+  if(this.email=="")
+  {
+    this.msg="Please fill in the email to reset your password";
+  }
+  else
+  {
+    this.msg="";
+    this._service.getUserById(this.email).subscribe(
+      (data:UserModel[])=>{
+        if(data.length==1)
+        {
+          var msg="Hello "+data[0].name+". You have requested to reset the password. your password is '"+data[0].password+"'. Password is one of the confidential thing, Don't share it with anyone.";
+            this._email.sendMail(new EmailModal(msg,this.email,"Resetting the password of Reunir.")).subscribe(
+              (data1:any)=>{
+                console.log("mail sent");
+                alert("The Password has been sent to "+this.email);
+              }
+            );
+        }
+        else
+        {
+          this.msg="You have entered incorrect email id. Please enter the email id you used to login with.";
+        }
+      }
+    );
+  }
+}
+/*
+onGoogleLoginSuccess = (loggedInUser) => {
+  console.log("login success");
+    this._zone.run(() => {
+        this.userAuthToken = loggedInUser.getAuthResponse().id_token;
+        this.userDisplayName = loggedInUser.getBasicProfile().getName();
+        this.userEmail=loggedInUser.getBasicProfile().getEmail();
+        this.userImage=loggedInUser.getBasicProfile().getImageUrl();
+    });
+    this.localstorage.setItem('email',this.userEmail);
+    this.localstorage.setItem('username',this.userDisplayName);
+    this.localstorage.setItem('dp',this.userImage);
+    this.router.navigate(["/home"]);  
+}*/
+
+}

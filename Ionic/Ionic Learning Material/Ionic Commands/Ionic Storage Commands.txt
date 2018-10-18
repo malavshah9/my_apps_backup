@@ -1,0 +1,25 @@
+1.
+npm install --save @ionic/storage
+2.
+import in app.moduel.ts.
+import { IonicStorageModule,Storage } from "@ionic/storage";
+3.
+include in imports.
+4.
+import in whichever page .
+import  {Storage} from "@ionic/Storage";
+5.
+constructor(public storage:Storage);
+6.
+this.storage.set('name',this.eid);
+7.
+this.storage.get('name').then((val)=>{
+
+});
+8.
+
+------------------------------------------
+import { Storage } from "@ionic/storage";
+public storage:Storage
+this.storage.set('id',this.email_id);
+

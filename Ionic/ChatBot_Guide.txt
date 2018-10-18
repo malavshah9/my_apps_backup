@@ -1,0 +1,8 @@
+How to Make Chatbot in ionic???
+1.First of all, Create new Ionic App.
+2.Write following command in ionic
+	npm install api-ai-javascript@2.0.0-beta.14
+3.Do following code.
+	import { ApiAiClient } from "api-ai-javascript";
+4.Make blank file named as index.js.map at IonicApp\node_modules\api-ai-javascript.
+

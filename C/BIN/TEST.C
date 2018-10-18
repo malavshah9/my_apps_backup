@@ -1,0 +1,19 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int i, j, x;
+    clrscr();
+/*    for(i=0, x=0; i<5; ++i)
+      for(j=0; j<i; ++j) {
+	 x += (i+j-1);
+	 printf("%d",x);
+      }
+      */
+      for(x=0;x<5;++x)
+      {
+	printf("\n It Executes %d",x);
+      }
+    return 0;
+}

@@ -1,0 +1,5 @@
+In order the plugin to work for the browser you should add platform browser and run it:
+ionic cordova platform add browser
+and run it:
+ionic cordova run browser
+otherwise it wont work with: ionic serve

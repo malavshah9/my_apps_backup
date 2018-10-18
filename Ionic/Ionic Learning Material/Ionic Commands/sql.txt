@@ -1,0 +1,14 @@
+select replace("select * from medicine_mst where pk_med_id in ('1,2,3')", "'", "")	
+
+select replace('1,2,3','''',' ');
+
+select med_name from medicine_mst where pk_med_id IN(select replace('1,2,3','''',' '));
+
+select med_name from medicine_mst where pk_med_id in (select TRIM('1,2,3'));
+
+select med_name from medicine_mst where pk_med_id in (
+(select SUBSTR
+(select SUBSTR('1,2,3',1,4)
+),0,));
+
+select med_name from medicine_mst where pk_med_id LIKE ('1,2,3')

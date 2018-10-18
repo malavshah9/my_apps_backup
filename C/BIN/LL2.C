@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<conio.h>
+struct ll{
+	int data;
+	struct ll *next;
+	}*ptr,*head;
+struct ll * create()
+{
+	struct ll *temp;
+	temp=(struct ll *)malloc(sizeof(struct ll));
+	return temp;
+}
+void display(struct ll * head)
+{
+	printf("\n");
+	while(head!=NULL)
+	{
+		printf("%d ->",head->data);
+		head=head->next;
+	}
+}
+struct ll* my(struct ll * head)
+{
+	int f=0,cnt=0;
+	struct ll * temp=head,*temp1=head,*new_head;
+	while(temp->next!=NULL)
+	{
+		f=0;
+		while(head->next!=NULL)
+		{
+			if((head->data)>(temp->data))
+			{
+				f=1;
+				break;
+			}
+			head=head->next;
+		}
+		if(f==1)
+		{
+			 if(cnt==0)
+			 {
+				new_head=temp->next;
+				temp1=new_head;
+			 }
+			 else
+			 {
+				temp1->next=temp->next;
+				temp1=temp1->next;
+			 }
+		}
+		else
+		{
+			temp=temp->next;
+		}
+		cnt++;
+	}
+	temp1->next=NULL;
+	return new_head;
+}
+void main()
+{
+	int data=1;
+	struct ll *head,*ptr;
+	clrscr();
+	printf("\nEnter Number");
+	scanf("%d",&data);
+	head=create();
+	head->data=data;
+	ptr=head;
+	while(data)
+	{
+		printf("Enter Numbers");
+		scanf("%d",&data);
+		ptr->next=create();
+		ptr=ptr->next;
+		ptr->data=data;
+	}
+	ptr->next=NULL;
+	display(head);
+	head=my(head);
+	display(head);
+	getch();
+}

@@ -1,0 +1,77 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="content-wrapper">
+<div class="container">
+  <section class="content">
+    <div class="row">
+      
+      <div class="col-md-11">
+        <img [hidden]="loader" height="150" width="150" src="../images/loader.gif" style="margin-left: 37%;margin-top: 22%;"/>
+        <div  [ngClass]="{'done': joinArray.length>0,'pending':joinArray.length==0 }" class="box">
+        
+        <h1 style="text-align:center">Communities</h1>
+        <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <button (click)="addCommunity()" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+            <button (click)="deleteAll()" class="btn btn-danger"><span>Delete All</span></button>
+          </div>
+          <div style="text-align:right" class="col-md-3">
+            <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+            <input #input1 type="text" (keyup)="0" class="form-control" style="width:150px;" placeholder="Search for.."/>
+            </div>
+          </div>
+          
+        </div>
+        </div>
+
+        <div class="box-body">
+          
+        <table class="table table-bordered table-hover">
+          
+        <thead>
+        <tr>
+          <th><input type="checkbox" /></th>
+    
+          <th>Community Name</th>
+          <th>Profile Photo</th>
+          <th>Cover Photo</th>
+          <th>User Name</th>
+          <th>Collection</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of (joinArray | communityfilter:input1.value | paginate: { itemsPerPage: 10, currentPage: page })" >
+               <td><input type="checkbox" (change)="checkChange(item)" /></td>
+            
+              <td>{{item.comm_name}}</td>
+               <td><img src="https://reunirbackend.herokuapp.com/{{item.profile_photo}}" height="150px" width="150px" /></td>
+              <td><img src="https://reunirbackend.herokuapp.com/{{item.cover_photo}}" height="150px" width="150px" /></td>
+
+              <!--<td><img src="https://reunirbackend.herokuapp.com{{item.profile_photo}}" height="150px" width="150px" /></td>
+              <td><img src="https://reunirbackend.herokuapp.com{{item.cover_photo}}" height="150px" width="150px" /></td>-->
+              <td>{{item.name}}</td>
+              <td>{{item.coll_name}}</td>
+              <td>{{item.date}}</td>
+              <td>{{item.description}}</td>
+              <td><button (click)="updateCommunity(item.comm_id)" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></button>
+              <button (click)="deleteCommunity(item)" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash"></span></button></td>
+              </tr>
+          </tbody>
+          </table>
+        
+      </div>
+          <div class="has-text-centered">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+    </div>
+  </div>
+    </div>
+  </section>
+</div>
+</div>

@@ -1,0 +1,21 @@
+$q="insert into student_tbl values (". $rollno .",'". $name ."','". $mobileno ."','". $fees ."','". $gender ."','". $year ."')";
+
+
+
+if($result=$conn->query($q)===true)
+{
+    echo "Succesfull Inserted";
+    }
+else
+{
+    echo $q;
+    echo "Not Successfully Inserted";
+}
+
+
+}
+$localhost="localhost";
+$user="root";
+$password="";
+$database="shopping_cart";
+$conn=new mysqli($localhost,$user,$password,$database);

@@ -1,0 +1,11 @@
+1.Arr
+2.Link arr with app module
+3.Router-Outlet in app.component.html
+4.Router-Link
+
+-------------------------------------------
+1. Make app.routing.ts
+2. Inside that
+		import {Routes,RouterModule } from '@angular/router';
+		const arr: Routes = [
+	{ path:'',redirectTo:

@@ -1,0 +1,152 @@
+// Simple weighted graph representation 
+// Uses an Adjacency Linked Lists, suitable for sparse graphs
+
+import java.io.*;
+
+class GraphLists {
+    class Node {
+        public int vert;
+        public int wgt;
+        public Node next;
+    }
+    
+    // V = number of vertices
+    // adj[] is the adjacency lists array
+    private int V;
+    private Node[] adj;
+    
+    // default constructor
+    public GraphLists(GraphLists temp) throws IOException{
+    	adj=new Node[temp.V];
+    	System.out.println("Ahiaya Ave 6");
+    	for(int i=0;i<temp.V;i++)
+    	{
+    		adj[i]=new Node();
+    		adj[i].next=null;
+    	}
+    	for(int i=0;i<temp.V;i++)
+    	{
+    		int pointing_node_vertices=i;
+    		System.out.println("Pointing Vertices = "+pointing_node_vertices);
+    		for(Node ptr=temp.adj[i];ptr!=null;ptr=ptr.next) {
+    			int find_index=ptr.vert;
+    			int pointing_node_vertices_weight=ptr.wgt;
+    			for(int j=0;j<temp.V;j++)
+    			{
+    				if((j+1)==find_index)
+    				{
+    					Node hj=adj[j];
+    					System.out.println("j= "+ j);
+    					while(hj.next!=null) {
+    						hj=hj.next;
+    					}
+    					hj.next=new Node();
+    					hj=hj.next;
+    					hj.vert=pointing_node_vertices;
+    					hj.wgt=pointing_node_vertices_weight;
+    				}
+    			}
+    			
+    		}
+    	}
+    }
+    public GraphLists(String graphFile)  throws IOException
+    {
+        int u, v, wgt;
+
+        FileReader fr = new FileReader(graphFile);
+		BufferedReader reader = new BufferedReader(fr);
+	           
+        String splits = " +";  // multiple whitespace as delimiter
+		String line = reader.readLine();        
+        V = Integer.parseInt(line);
+        
+        // create adjacency lists, initialised to sentinel node z
+        adj = new Node[V];
+        for(v = 0; v < V; ++v)
+           adj[v] = null;               
+        
+        // read the edges
+        String[] parts;
+        
+        System.out.println("Reading edges from text file");
+        while ((line = reader.readLine()) != null)
+        {
+            parts = line.split(splits);
+            u = Integer.parseInt(parts[0]);
+            v = Integer.parseInt(parts[1]); 
+            wgt = Integer.parseInt(parts[2]);
+            
+            System.out.println("Edge " + u + "--(" + wgt + ")--" + v);   
+            // write code to put edge into adjacency list     
+            
+            Node prev = null, curr = adj[u];
+            while (curr != null) 
+            {
+            	prev = curr;
+            	curr = curr.next;
+            }
+            	
+            if (prev == null) {
+            	adj[u] = new Node();
+            	adj[u].vert = v;
+            	adj[u].wgt = wgt;
+            	adj[u].next = null;
+            }
+            else {
+            	Node x = new Node();
+            	prev.next = x;
+            	x.vert = v;
+            	x.wgt = wgt;
+            	x.next = null;	
+            }
+        }	       
+    }
+   
+    public void reverse_graphlist(GraphLists g) throws IOException {
+    	GraphLists reversed_gl=new GraphLists(g);
+    	reversed_gl.display();
+    }
+    // method to display the graph representation
+    public void display() {
+        int v;
+        
+        for(v=0; v<V; ++v){
+            System.out.print("\nadj[" + v + "] ->" );
+            for(Node curr = adj[v]; curr != null; curr = curr.next) 
+                System.out.print(" |" + curr.vert + " | " + curr.wgt + "| ->");    
+        }
+        System.out.println("");
+    }
+    public int maxOutDegree()
+    {
+    	int max=0;
+    	for(int i=0;i<V;i++)
+    	{
+    		int cnt=1;
+    		Node current_node=adj[i];
+    		for(int j=i+1;j<V;j++) {
+    			if(adj[j]==current_node)
+    			{
+    				cnt++;
+    			}
+    		}
+    		if(max<cnt) {
+    			max=cnt;
+    		}
+    	}
+    	return max;
+    }
+
+    public static void main(String[] args) throws IOException
+    {
+        String fname = "wGraph.txt";               
+
+        GraphLists g = new GraphLists(fname);
+        //System.out.println("MaxOutDegree = "+g.maxOutDegree());
+        g.display();
+        g.reverse_graphlist(g);
+    }
+
+}
+
